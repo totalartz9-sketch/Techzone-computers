@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechZone Computers</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f8fc;color:#162033}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.top{background:#075ee8;color:#fff;text-align:center;padding:8px;font-size:13px}
+header{background:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 15px #0001}
+.nav{max-width:1200px;margin:auto;padding:13px 18px;display:flex;align-items:center;gap:15px}
+.logo{border:0;background:none;color:#075ee8;font-size:23px;font-weight:900;white-space:nowrap}
+.logo span{color:#111827}
+.menu{display:none;border:1px solid #ddd;background:#fff;border-radius:8px;padding:8px 11px;font-size:22px}
+nav{display:flex;gap:5px;margin-left:auto}
+nav button{border:0;background:white;padding:10px 12px;border-radius:7px;font-weight:700;color:#344054}
+nav button:hover{background:#edf4ff;color:#075ee8}
+.search{width:190px;padding:10px;border:1px solid #dce2ea;border-radius:7px}
+main{max-width:1200px;margin:auto;padding:20px}
+.page{display:none}.page.active{display:block}
+.hero{min-height:430px;border-radius:20px;padding:50px;color:#fff;display:flex;align-items:center;background:linear-gradient(90deg,#061b40e8,#075ee8aa),url("https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1500&q=85") center/cover}
+.hero h1{font-size:48px;max-width:620px;margin-bottom:15px}.hero p{font-size:18px;line-height:1.6;max-width:600px}
+.btn{border:0;background:#075ee8;color:#fff;padding:12px 17px;border-radius:7px;font-weight:800}
+.white{background:#fff;color:#075ee8}.dark{background:#111b30}
+.hero .btn{margin:20px 8px 0 0}
+.section{margin:45px 0}.section h2{font-size:30px;margin-bottom:7px}.muted{color:#697386}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.card{background:#fff;border:1px solid #e0e6ee;border-radius:13px;overflow:hidden}
+.card img{width:100%;height:180px;object-fit:contain;padding:10px}
+.body{padding:15px}.brand{font-size:12px;color:#075ee8;font-weight:900}.card h3{font-size:16px;margin:7px 0;min-height:38px}
+.price{font-size:20px;font-weight:900;margin:9px 0}.stock{font-size:12px;color:#159447;font-weight:800;margin-bottom:10px}
+.actions{display:flex;gap:7px}.actions button{flex:1}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.filter{border:1px solid #dce2ea;background:#fff;padding:9px 14px;border-radius:20px}.filter.active{background:#075ee8;color:#fff}
+.detail{background:#fff;border:1px solid #e0e6ee;border-radius:15px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:18px}
+.detail>img{width:100%;height:410px;object-fit:contain}.detail h1{font-size:31px;margin:7px 0}.desc{color:#697386;line-height:1.6;margin:15px 0}
+.spec{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e7ebf0}.qty{display:flex;align-items:center;gap:12px;margin:18px 0}.qty button{width:36px;height:36px;border:1px solid #ddd;background:#fff;border-radius:7px}
+.builder{background:#fff;border:1px solid #e0e6ee;border-radius:15px;padding:22px;margin-top:20px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field label{font-weight:800;display:block;margin-bottom:6px}.field select{width:100%;padding:12px;border:1px solid #dce2ea;border-radius:7px;background:#fff}
+.check{padding:14px;margin-top:20px;background:#effbf2;border:1px solid #bde7c7;border-radius:9px}.check.bad{background:#fff1f1;border-color:#efb8b8}
+.total{display:flex;justify-content:space-between;border-top:1px solid #ddd;margin-top:20px;padding-top:18px;font-size:20px}
+.cart-row{background:#fff;border:1px solid #e0e6ee;border-radius:10px;padding:12px;margin:9px 0;display:flex;align-items:center;gap:12px}.cart-row img{width:75px;height:65px;object-fit:contain}.grow{flex:1}
+.empty{background:#fff;border-radius:12px;padding:60px;text-align:center}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:100;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.box{background:#fff;width:min(500px,100%);max-height:90vh;overflow:auto;border-radius:14px;padding:22px}.close{float:right;border:0;border-radius:50%;width:32px;height:32px}
+.box input,.box textarea{width:100%;padding:11px;border:1px solid #dce2ea;border-radius:7px;margin:6px 0 12px}
+footer{background:#07152e;color:#fff;margin-top:60px;padding:40px 20px}.foot{max-width:1200px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:25px}.foot button{display:block;border:0;background:none;color:#c2cde0;padding:5px 0}
+@media(max-width:900px){.menu{display:block}nav{display:none;position:absolute;left:10px;right:10px;top:66px;background:#fff;padding:12px;flex-direction:column;box-shadow:0 8px 20px #0002;border-radius:10px}nav.open{display:flex}.grid{grid-template-columns:repeat(2,1fr)}.search{margin-left:auto;width:145px}.detail{grid-template-columns:1fr}.fields{grid-template-columns:1fr}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.hero{padding:30px 22px}.hero h1{font-size:35px}.hero .btn{display:block;width:100%}.search{width:105px}.logo{font-size:18px}.foot{grid-template-columns:1fr}}
+.wa{background:#16a34a!important;color:#fff!important;border-color:#16a34a!important}.wa:hover{filter:brightness(.93)}
+
+.sheet-status{margin:10px auto 0;max-width:1200px;padding:9px 14px;border-radius:10px;background:#fff3cd;color:#7a5a00;font-size:13px;text-align:center}.sheet-status.ok{background:#e8f7ee;color:#176b3a}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 20px}
+.steps span{padding:9px 6px;text-align:center;background:#eef2f7;border-radius:8px;font-size:12px;color:#64748b}
+.steps span.active{background:#0b63f6;color:#fff;font-weight:700}
+.steps span.done{background:#dff5e7;color:#176b3a;font-weight:700}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form-grid .wide{grid-column:1/-1}
+.form-grid input,.upi-box input{margin:5px 0 8px}
+.eta{margin-top:10px;padding:12px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:9px;color:#1e40af;font-size:13px}
+.pay-option{display:block;border:1px solid #dbe3ed;border-radius:10px;padding:13px;margin:9px 0;cursor:pointer}
+.pay-option small{display:block;color:#64748b;margin:5px 0 0 23px}
+.upi-box{border:1px solid #dbe3ed;border-radius:10px;padding:13px;margin-top:10px}
+.qr-placeholder{border:1px dashed #9fb4cc;border-radius:10px;padding:20px;text-align:center;margin-bottom:12px}
+.qr-mark{width:120px;height:120px;margin:0 auto 10px;display:grid;place-items:center;border:8px solid #111;background:repeating-linear-gradient(45deg,#111 0 4px,#fff 4px 8px);color:#fff;font-size:20px;font-weight:800}
+.warning{padding:9px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;color:#9a3412;font-size:12px}
+.two-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.review-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin:9px 0}
+.review-line{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid #e5e7eb;margin-top:7px;font-size:13px}
+.success-box{padding:14px;border-radius:10px;background:#e9f8ef;border:1px solid #b8e0c6;color:#176b3a}
+.small{font-size:12px}
+@media(max-width:560px){.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.two-buttons{grid-template-columns:1fr}.steps span{font-size:10px}}
+
+
+/* TECHZONE NEON PC-SHOP THEME */
+:root{--blue:#0787ff;--cyan:#12d9ff;--deep:#020817;--panel:#07172d;--panel2:#0b2140;--line:#174c78;--text:#f5f9ff;--muted:#a8bbd2}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--deep);color:var(--text);background-image:radial-gradient(circle at 80% 10%,#123d78 0,transparent 30%),radial-gradient(circle at 10% 55%,#0a2450 0,transparent 25%)}
+.top{background:linear-gradient(90deg,#031b49,#075ee8,#031b49);padding:8px 18px;font-size:12px;letter-spacing:.2px}
+header{background:rgba(2,8,23,.94);border-bottom:1px solid #153b61;box-shadow:0 10px 30px #0008;backdrop-filter:blur(12px)}
+.nav{max-width:1280px;padding:15px 22px}.logo{color:#fff;font-size:25px;text-transform:none}.logo span{color:#0aa9ff}nav button{background:transparent;color:#d9e7f7;border-radius:9px}nav button:hover{background:#0b294c;color:#10baff}.search{background:#091b33;color:#fff;border:1px solid #28547c;border-radius:25px;padding:11px 16px}.search::placeholder{color:#7892ad}.menu{background:#081a31;color:#fff;border-color:#234b6f}
+main{max-width:1280px;padding:0 22px 45px}.page{min-height:400px}.hero{min-height:490px;margin:0 -22px;border-radius:0;background:linear-gradient(90deg,#020817f5 0%,#031126e8 34%,#03112666 62%,#03112618 100%),url("https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1800&q=90") center/cover;display:flex;align-items:center;padding:60px max(5vw,45px);border-bottom:1px solid #164b77}.hero-copy{max-width:690px}.eyebrow,.section-kicker{color:#18bfff;font-size:11px;font-weight:900;letter-spacing:2.2px;margin-bottom:10px}.hero h1{font-size:56px;line-height:1.05;margin:0 0 16px;letter-spacing:-1.5px}.hero h1 span,.section-head h2 span,.services-home h2 span{color:#0ca9ff}.hero p{font-size:18px;color:#d0deee;line-height:1.55;max-width:610px}.hero-buttons{display:flex;gap:12px;margin-top:24px}.btn{background:linear-gradient(135deg,#087dff,#0cb9ff);border:1px solid #18a9ff;color:white;padding:12px 19px;border-radius:9px;box-shadow:0 8px 22px #008cff35}.btn:hover{transform:translateY(-1px);box-shadow:0 12px 28px #008cff55}.btn.ghost{background:#071b34;border-color:#2c618d}.btn.white{background:#fff;color:#056de2}.btn.dark{background:#0b2a4c;color:#fff}.trust-row{display:flex;gap:28px;margin-top:35px}.trust-row>div{display:flex;align-items:center;gap:10px}.trust-row b{font-size:22px;color:#10baff}.trust-row span{font-size:12px;font-weight:800}.trust-row small{display:block;color:#8ea8c2;font-weight:500;margin-top:2px}
+.section{margin:48px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px}.section h2,.section-head h2{font-size:31px;margin:0 0 7px}.muted{color:var(--muted)}.text-link{border:0;background:none;color:#18bfff;font-weight:800;cursor:pointer}.grid{gap:14px}.category-grid{grid-template-columns:repeat(5,1fr)}.category-grid .card{cursor:pointer;background:linear-gradient(180deg,#0a2139,#061528);border:1px solid #19486e;border-radius:12px;transition:.2s}.category-grid .card:hover{border-color:#08aaff;transform:translateY(-4px);box-shadow:0 15px 35px #008cff22}.category-grid .card img{height:150px;background:#071426;padding:14px}.category-grid .body{padding:13px}.category-grid h3{color:#fff;margin:3px 0 5px}.category-grid .muted{font-size:12px}
+.services-home{margin:55px -22px 0;padding:55px max(5vw,45px);display:grid;grid-template-columns:.85fr 1.35fr;gap:40px;background:linear-gradient(110deg,#061d39,#041124 65%,#071b38);border-top:1px solid #164b77;border-bottom:1px solid #164b77}.service-copy h2{font-size:34px;line-height:1.15;margin-bottom:14px}.service-copy p{color:#b8cbe0;line-height:1.6;max-width:470px;margin-bottom:20px}.service-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:center}.mini-card{background:linear-gradient(145deg,#102d4b,#081a31);border:1px solid #235579;border-radius:11px;padding:17px;min-height:105px;box-shadow:0 8px 25px #0003}.mini-card strong{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#087ff2;color:#fff;margin-bottom:8px}.mini-card h3{font-size:14px}.mini-card p{font-size:11px;color:#8fa8c1;margin-top:4px}
+.builder-banner{margin:45px -22px 0;padding:42px max(5vw,45px);display:flex;justify-content:space-between;align-items:center;gap:35px;background:linear-gradient(90deg,#03172e,#08295a,#03172e);border-top:1px solid #155a91;border-bottom:1px solid #155a91}.builder-banner h2{font-size:34px;margin-bottom:7px}.builder-banner p{color:#b7cce2;margin-bottom:17px}.builder-points{display:grid;gap:12px;min-width:310px}.builder-points span{font-weight:700;color:#dbe9f8}
+#shop>h2,#builder>h2,#services>h2,#contact>h2,#cart>h2{font-size:34px;margin-top:35px}.filters{margin:20px 0}.filter{background:#081b31;color:#bdd0e4;border-color:#214e72}.filter.active{background:#0788ff;color:#fff;border-color:#0788ff}.card{background:linear-gradient(180deg,#0b2038,#061426);border-color:#1b496e;color:#f5f9ff}.card img{background:#061225}.card h3{color:#fff}.card .muted{color:#9bb0c7}.brand{color:#16baff}.price{color:#fff}.stock{color:#36d58b}.detail,.builder{background:#07182c;border-color:#1b496e;color:#fff}.detail .desc,.detail .spec{color:#a9bdd2}.detail .spec{border-color:#193e60}.field label{color:#b9cde2}.field select{background:#081b31;color:#fff;border-color:#285478}.check{background:#08233d;color:#bcd4ea;border-color:#1e527a}.total{border-color:#285478}
+.sheet-status{position:fixed;right:15px;bottom:15px;z-index:50;background:#061a2f;border:1px solid #1e628e;color:#9ec8e7;padding:7px 11px;border-radius:20px;font-size:11px;box-shadow:0 8px 25px #0007}.sheet-status.ok{color:#65e5a5;border-color:#1b8d65}
+footer{background:#020b18;border-top:1px solid #1a466c;color:#dce9f6}.footer-top{max-width:1280px;margin:auto;padding:42px 30px;display:grid;grid-template-columns:1.25fr 1fr 1.25fr 1.25fr;gap:35px}.brand-logo{font-size:28px;font-weight:900}.brand-logo span{color:#12a9ff}.foot-brand p{color:#8fa9c1;margin-top:9px}.footer-top h3{font-size:14px;color:#fff;margin-bottom:13px}.footer-top button{display:block;border:0;background:none;color:#9fb6cd;margin:7px 0;cursor:pointer}.footer-top button:hover{color:#12b8ff}.footer-top p{font-size:12px;color:#9fb6cd;margin:8px 0}.map-box{height:110px;border:1px solid #2a5878;border-radius:9px;background:linear-gradient(135deg,#0d2942,#07172a);display:flex;align-items:center;justify-content:center;text-align:center;color:#1eb8ff;font-weight:900;line-height:1.35}.map-box small{display:block;color:#9fb6cd;font-weight:500}.footer-bottom{border-top:1px solid #173b59;padding:14px 30px;display:flex;justify-content:space-between;color:#7994ad;font-size:11px;max-width:100%}
+@media(max-width:900px){.category-grid{grid-template-columns:repeat(3,1fr)}.services-home{grid-template-columns:1fr}.builder-banner{display:block}.builder-points{margin-top:25px}.hero h1{font-size:44px}.footer-top{grid-template-columns:1fr 1fr}.service-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){main{padding:0 12px 30px}.hero{margin:0 -12px;padding:45px 25px;min-height:560px}.hero h1{font-size:39px}.hero p{font-size:15px}.trust-row{gap:14px;flex-wrap:wrap}.trust-row>div{min-width:120px}.category-grid{grid-template-columns:repeat(2,1fr)}.section-head{align-items:flex-start;flex-direction:column}.services-home,.builder-banner{margin-left:-12px;margin-right:-12px;padding:40px 25px}.service-cards{grid-template-columns:1fr 1fr}.footer-top{grid-template-columns:1fr;padding:35px 22px}.footer-bottom{padding:13px 22px;gap:10px;flex-direction:column}.nav{flex-wrap:wrap}.search{width:100%;order:5}nav{display:none;width:100%;flex-direction:column}nav.open{display:flex}.menu{display:block}}
+</style>
+</head>
+<body>
+<div id="sheetStatus" class="sheet-status">Connecting to Google Sheets…</div>
+
+<div class="top">TechZone Computers • Genuine Components • Custom PC Builds</div>
+
+<header>
+<div class="nav">
+<button class="menu" onclick="toggleMenu()">☰</button>
+<button class="logo" onclick="show('home')">TechZone <span>Computers</span></button>
+<nav id="nav">
+<button onclick="show('home')">Home</button>
+<button onclick="show('shop')">Products</button>
+<button onclick="show('builder')">Custom PC</button>
+<button onclick="show('services')">Services</button>
+<button onclick="show('contact')">Contact</button>
+<button onclick="show('cart')">Cart (<span id="count">0</span>)</button>
+</nav>
+<input class="search" id="search" placeholder="Search" oninput="renderShop()">
+</div>
+</header>
+
+<main>
+<section id="home" class="page active">
+<div class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">WELCOME TO TECHZONE COMPUTERS</div>
+    <h1>Power Your World<br><span>With The Right Tech</span></h1>
+    <p>PC components, custom builds, upgrades and computer services — all under one roof.</p>
+    <div class="hero-buttons"><button class="btn" onclick="show('shop')">Explore Products <b>→</b></button><button class="btn ghost" onclick="show('builder')">Build Custom PC</button></div>
+    <div class="trust-row"><div><b>✓</b><span>Genuine Products<small>Quality components</small></span></div><div><b>↗</b><span>Fast Delivery<small>Across India</small></span></div><div><b>◉</b><span>Expert Support<small>Before & after sale</small></span></div></div>
+  </div>
+</div>
+
+<div class="section category-section">
+  <div class="section-kicker">SHOP BY CATEGORY</div>
+  <div class="section-head"><div><h2>Popular <span>Categories</span></h2><p class="muted">Choose a component category to view available products.</p></div><button class="text-link" onclick="show('shop')">View All Products →</button></div>
+  <div class="grid category-grid" id="categories"></div>
+</div>
+
+<div class="services-home">
+  <div class="service-copy"><div class="section-kicker">OUR SERVICES</div><h2>We Keep Your System<br><span>Running Smoothly</span></h2><p>From custom PC building to upgrades and maintenance, get reliable help for your setup.</p><button class="btn" onclick="show('services')">Explore Services →</button></div>
+  <div class="service-cards"><div class="mini-card"><strong>⚙</strong><h3>Custom PC Building</h3><p>Build your dream PC</p></div><div class="mini-card"><strong>▣</strong><h3>Laptop & PC Repair</h3><p>All brands, all issues</p></div><div class="mini-card"><strong>▤</strong><h3>SSD / RAM Upgrade</h3><p>Boost performance</p></div><div class="mini-card"><strong>◈</strong><h3>PC Cleaning</h3><p>Improve cooling</p></div><div class="mini-card"><strong>▥</strong><h3>Windows Setup</h3><p>Drivers & setup</p></div></div>
+</div>
+
+<div class="builder-banner"><div><div class="section-kicker">BUILD YOUR DREAM PC</div><h2>Custom PC Builder</h2><p>Choose compatible components based on your budget and requirements.</p><button class="btn" onclick="show('builder')">Start Building →</button></div><div class="builder-points"><span>✓ Best Component Compatibility</span><span>✓ Budget Friendly Options</span><span>✓ Performance Focused</span><span>✓ Expert Guidance</span></div></div>
+</section>
+
+<section id="shop" class="page">
+<h2>Products</h2><p class="muted">Filter products or use search.</p>
+<div class="filters" id="filters"></div>
+<div class="grid" id="productGrid"></div>
+</section>
+
+<section id="product" class="page">
+<button class="btn dark" onclick="show('shop')">← Back to Products</button>
+<div id="detail"></div>
+</section>
+
+<section id="builder" class="page">
+<h2>Custom PC Builder</h2>
+<p class="muted">Select components one by one.</p>
+<div class="builder">
+<div class="fields">
+<div class="field"><label>CPU</label><select id="cpu" onchange="checkBuild()"></select></div>
+<div class="field"><label>Motherboard</label><select id="mb" onchange="checkBuild()"></select></div>
+<div class="field"><label>GPU</label><select id="gpu" onchange="checkBuild()"></select></div>
+<div class="field"><label>RAM</label><select id="ram" onchange="checkBuild()"></select></div>
+<div class="field"><label>SSD</label><select id="ssd" onchange="checkBuild()"></select></div>
+</div>
+<div id="check" class="check">Select your components to check compatibility.</div>
+<div class="total"><span>Total</span><span id="buildTotal">₹0</span></div>
+<button class="btn" style="margin-top:15px" onclick="addBuild()">Add Build To Cart</button>
+</div>
+</section>
+
+<section id="services" class="page">
+<h2>Services</h2><p class="muted">Computer services offered by TechZone.</p>
+<div class="grid">
+<div class="card"><div class="body"><h3>Custom PC Building</h3><p class="muted">Build and test a PC around your budget.</p></div></div>
+<div class="card"><div class="body"><h3>PC Upgrades</h3><p class="muted">RAM, SSD, GPU and CPU upgrade assistance.</p></div></div>
+<div class="card"><div class="body"><h3>Cleaning</h3><p class="muted">Dust cleaning and thermal maintenance.</p></div></div>
+<div class="card"><div class="body"><h3>Windows Setup</h3><p class="muted">Drivers and basic software setup.</p></div></div>
+</div>
+</section>
+
+<section id="contact" class="page">
+<h2>Contact</h2>
+<div class="builder" style="margin-top:20px">
+<h3>TechZone Computers</h3>
+<p class="muted" style="margin:10px 0">Morena, Madhya Pradesh</p>
+<p><b>Phone:</b> +91 XXXXX XXXXX</p>
+<p><b>WhatsApp:</b> +91 XXXXX XXXXX</p>
+<button class="btn" style="margin-top:15px" onclick="checkout()">Send Enquiry</button>
+</div>
+</section>
+
+<section id="cart" class="page">
+<h2>Your Cart</h2><p class="muted">Selected products and custom-build parts.</p>
+<div id="cartArea" style="margin-top:20px"></div>
+</section>
+</main>
+
+<footer><div class="footer-top"><div class="foot-brand"><div class="brand-logo"><span>TZ</span> Tech<span>Zone</span></div><p>Your One Stop Computer Solution</p></div><div><h3>Quick Links</h3><button onclick="show('home')">→ Home</button><button onclick="show('shop')">→ Products</button><button onclick="show('services')">→ Services</button><button onclick="show('builder')">→ Custom PC</button><button onclick="show('contact')">→ Contact</button></div><div><h3>Contact Us</h3><p>☎ +91 XXXXX XXXXX</p><p>✉ support@techzone.in</p><p>⌖ Morena, Madhya Pradesh</p><p>◷ Mon–Sat: 10:00 AM – 8:00 PM</p></div><div><h3>Our Location</h3><div class="map-box">TECHZONE<br>COMPUTERS<br><small>Morena, Madhya Pradesh</small></div></div></div><div class="footer-bottom"><span>© 2026 TechZone Computers. All rights reserved.</span><span>f &nbsp; ◎ &nbsp; ▶ &nbsp; X</span></div></footer>
+
+<div class="modal" id="modal"><div class="box" id="box"></div></div>
+
+<script>
+const P=[
+{id:"750ti",brand:"ZOTAC",name:"GeForce GTX 750 Ti 2GB GDDR5",cat:"GPU",price:2000,stock:8,img:"https://computify.in/cdn/shop/files/main_ZT-70601-10M_image7_221679b6-8a40-429f-82d7-668535e0665d.jpg?v=1768438965",desc:"ZOTAC GTX 750 Ti for entry-level 1080p gaming.",spec:[["VRAM","2GB GDDR5"],["Bus","128-bit"],["Interface","PCIe 3.0"],["Power","60W"]]},
+{id:"rx6600",brand:"ASRock",name:"Radeon RX 6600 Challenger D 8GB",cat:"GPU",price:17000,stock:3,img:"https://www.oderco.com.br/media/catalog/product/cache/0ee050c3ffc3555709b9bb6062f4d7e9/2/9/299647_1-17460182689994294.jpeg",desc:"Dual-fan Radeon graphics card for 1080p gaming.",spec:[["VRAM","8GB GDDR6"],["Bus","128-bit"],["Interface","PCIe 4.0"],["Power","8-pin"]]},
+{id:"12400f",brand:"INTEL",name:"Core i5-12400F",cat:"CPU",price:9500,stock:6,img:"https://hanoicomputercdn.com/media/product/62476_cpu_intel_core_i5_12400f_22.JPG",desc:"6-core Intel processor for modern gaming and productivity builds.",spec:[["Cores","6"],["Threads","12"],["Socket","LGA1700"],["Graphics","No iGPU"]]},
+{id:"12400",brand:"INTEL",name:"Core i5-12400",cat:"CPU",price:12500,stock:5,img:"https://hanoicomputercdn.com/media/product/62476_cpu_intel_core_i5_12400f_22.JPG",desc:"6-core Intel processor with integrated graphics.",spec:[["Cores","6"],["Threads","12"],["Socket","LGA1700"],["Graphics","Intel UHD 730"]]},
+{id:"5600gt",brand:"AMD",name:"Ryzen 5 5600GT",cat:"CPU",price:10500,stock:5,img:"https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=900&q=85",desc:"6-core AM4 APU with integrated Radeon graphics.",spec:[["Cores","6"],["Threads","12"],["Socket","AM4"],["Graphics","Radeon integrated"]]},
+{id:"3400g",brand:"AMD",name:"Ryzen 5 3400G",cat:"CPU",price:8500,stock:4,img:"https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=900&q=85",desc:"AM4 APU with integrated Radeon Vega graphics.",spec:[["Cores","4"],["Threads","8"],["Socket","AM4"],["Graphics","Radeon Vega 11"]]},
+{id:"7500",brand:"INTEL",name:"Core i5-7500",cat:"CPU",price:2400,stock:3,img:"https://content.rozetka.com.ua/goods/images/big/354862196.jpg",desc:"7th-gen budget Intel desktop processor.",spec:[["Cores","4"],["Threads","4"],["Socket","LGA1151"],["Graphics","Intel HD 630"]]},
+{id:"b450",brand:"GIGABYTE",name:"B450M S2H DDR4",cat:"Motherboard",price:5000,stock:5,img:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=85",desc:"AM4 B450 DDR4 motherboard for Ryzen builds.",spec:[["Socket","AM4"],["Memory","DDR4"],["Form","Micro-ATX"],["Chipset","B450"]]},
+{id:"h610",brand:"H610",name:"H610 DDR4 Micro-ATX Motherboard",cat:"Motherboard",price:4500,stock:5,img:"https://images.unsplash.com/photo-1592664474505-51c549ad15c5?auto=format&fit=crop&w=900&q=85",desc:"LGA1700 DDR4 motherboard for Intel 12th-gen builds.",spec:[["Socket","LGA1700"],["Memory","DDR4"],["Form","Micro-ATX"],["Chipset","H610"]]},
+{id:"h110",brand:"FRONTECH",name:"H110 LGA1151 DDR4 Motherboard",cat:"Motherboard",price:4490,stock:4,img:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=85",desc:"Budget LGA1151 motherboard for compatible Intel processors.",spec:[["Socket","LGA1151"],["Memory","DDR4"],["Form","Micro-ATX"],["Chipset","H110"]]},
+{id:"gskill16",brand:"G.SKILL",name:"Aegis 16GB DDR4 3200MHz",cat:"RAM",price:6000,stock:10,img:"https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=85",desc:"16GB desktop DDR4 memory.",spec:[["Capacity","16GB"],["Type","DDR4"],["Speed","3200MHz"],["Form","UDIMM"]]},
+{id:"kingston16",brand:"KINGSTON",name:"FURY Beast 16GB DDR4 3200MHz",cat:"RAM",price:6200,stock:8,img:"https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=85",desc:"Kingston FURY Beast DDR4 desktop memory.",spec:[["Capacity","16GB"],["Type","DDR4"],["Speed","3200MHz"],["Form","UDIMM"]]},
+{id:"adata512",brand:"ADATA XPG",name:"GAMMIX S60 512GB NVMe",cat:"SSD",price:3500,stock:7,img:"https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=85",desc:"M.2 NVMe SSD for fast OS, apps and games.",spec:[["Capacity","512GB"],["Interface","NVMe"],["Form","M.2 2280"],["Type","3D NAND"]]},
+{id:"wd1tb",brand:"WESTERN DIGITAL",name:"WD Blue SN580 1TB NVMe",cat:"SSD",price:6500,stock:5,img:"https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=85",desc:"1TB PCIe 4.0 NVMe SSD.",spec:[["Capacity","1TB"],["Interface","PCIe 4.0 NVMe"],["Form","M.2 2280"],["Read","Up to 4150MB/s"]]},
+{id:"eco",brand:"ANT ESPORTS",name:"Value ECO500 500W PSU",cat:"PSU",price:2800,stock:9,img:"https://images.unsplash.com/photo-1625842268584-8f3296236761?auto=format&fit=crop&w=900&q=85",desc:"500W ATX power supply for budget builds.",spec:[["Power","500W"],["Type","ATX"],["Cooling","Fan cooled"],["Modular","Non-modular"]]},
+{id:"mwe550",brand:"COOLER MASTER",name:"MWE 550 550W PSU",cat:"PSU",price:3990,stock:6,img:"https://www.newcentury.com.my/wp-content/uploads/2020/12/%E6%9C%AA%E6%A0%87%E9%A2%98-6-1.jpg",desc:"550W ATX power supply with 80 PLUS Standard efficiency.",spec:[["Power","550W"],["Type","ATX"],["Efficiency","80 PLUS Standard"],["PCIe","2 x 6+2"]]},
+{id:"ice112",brand:"ANT ESPORTS",name:"ICE-112 White Gaming Cabinet",cat:"Cabinet",price:3900,stock:5,img:"https://vishalperipherals.com/cdn/shop/files/71TqY0Qew8L._SL1500.jpg?v=1734943706&width=1445",desc:"White mid-tower cabinet with RGB fans and tempered glass.",spec:[["Color","White"],["Motherboard","ATX / mATX / ITX"],["GPU clearance","340mm"],["Fans","120mm support"]]},
+{id:"monitor22",brand:"FRONTECH",name:"22-inch FHD 100Hz Curved Monitor",cat:"Monitor",price:5769,stock:5,img:"https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=85",desc:"22-inch Full HD curved monitor for gaming and everyday use.",spec:[["Size","22 inch"],["Resolution","1920×1080"],["Refresh","100Hz"],["Response","5ms"]]},
+{id:"icec400",brand:"ANT ESPORTS",name:"ICE-C400 CPU Air Cooler",cat:"Cooler",price:1119,stock:7,img:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=900&q=85",desc:"Tower-style CPU air cooler for compatible desktop sockets.",spec:[["Type","Air cooler"],["Fan","120mm"],["Use","CPU cooling"],["RGB","Variant dependent"]]}
+];
+let cart=JSON.parse(localStorage.getItem("tzcart")||"[]"),filter="All";
+
+function money(x){return "₹"+x.toLocaleString("en-IN")}
+function save(){localStorage.setItem("tzcart",JSON.stringify(cart));document.getElementById("count").textContent=cart.reduce((a,x)=>a+x.qty,0)}
+function show(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.getElementById("nav").classList.remove("open");
+ window.scrollTo(0,0);
+ if(id==="shop")renderShop();
+ if(id==="cart")renderCart();
+}
+function toggleMenu(){document.getElementById("nav").classList.toggle("open")}
+function card(p){
+ return `<div class="card"><img loading="lazy" src="${p.img}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80'"><div class="body"><div class="brand">${p.brand} • ${p.cat}</div><h3>${p.name}</h3><div class="price">${money(p.price)}</div><div class="stock">● ${p.stock} in stock</div><div class="actions"><button class="btn dark" onclick="view('${p.id}')">View</button><button class="btn" onclick="add('${p.id}')">Add</button></div></div></div>`;
+}
+function renderCategories(){
+ const data=[
+ ["CPU","Processors","https://hanoicomputercdn.com/media/product/62476_cpu_intel_core_i5_12400f_22.JPG"],
+ ["GPU","Graphics Cards","https://computify.in/cdn/shop/files/main_ZT-70601-10M_image7_221679b6-8a40-429f-82d7-668535e0665d.jpg?v=1768438965"],
+ ["Motherboard","Motherboards","https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85"],
+ ["RAM","Memory","https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=800&q=85"],
+ ["SSD","SSD Storage","https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=800&q=85"],
+ ["PSU","Power Supplies","https://www.newcentury.com.my/wp-content/uploads/2020/12/%E6%9C%AA%E6%A0%87%E9%A2%98-6-1.jpg"],
+ ["Cabinet","PC Cabinets","https://vishalperipherals.com/cdn/shop/files/71TqY0Qew8L._SL1500.jpg?v=1734943706&width=1445"],
+ ["Monitor","Monitors","https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=85"],
+ ["Cooler","CPU Coolers","https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85"]
+ ];
+ document.getElementById("categories").innerHTML=data.map(x=>`<div class="card" onclick="setFilter('${x[0]}')"><img src="${x[2]}" alt="${x[1]}"><div class="body"><h3>${x[1]}</h3><p class="muted">View components</p></div></div>`).join("");
+}
+function renderFeatured(){document.getElementById("featured").innerHTML=P.slice(0,4).map(card).join("")}
+function renderFilters(){
+ let cats=["All","CPU","GPU","Motherboard","RAM","SSD","PSU","Cabinet","Monitor","Cooler"];
+ document.getElementById("filters").innerHTML=cats.map(x=>`<button class="filter ${filter===x?"active":""}" onclick="setFilter('${x}')">${x}</button>`).join("");
+}
+function renderShop(){
+ renderFilters();
+ let q=document.getElementById("search").value.toLowerCase();
+ let list=P.filter(p=>(filter==="All"||p.cat===filter)&&(!q||p.name.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q)));
+ document.getElementById("productGrid").innerHTML=list.length?list.map(card).join(""):"<div class='empty'>No matching products.</div>";
+}
+function setFilter(x){filter=x;show("shop");renderShop()}
+function view(id){
+ let p=P.find(x=>x.id===id);
+ document.getElementById("detail").innerHTML=`<div class="detail"><img loading="lazy" src="${p.img}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80'"><div><div class="brand">${p.brand} • ${p.cat}</div><h1>${p.name}</h1><div class="price">${money(p.price)}</div><div class="stock">● ${p.stock} in stock</div><p class="desc">${p.desc}</p>${p.spec.map(s=>`<div class="spec"><span>${s[0]}</span><b>${s[1]}</b></div>`).join("")}<div class="qty"><button onclick="dq(-1)">−</button><b id="dq">1</b><button onclick="dq(1)">+</button></div><button class="btn" onclick="add('${p.id}',+document.getElementById('dq').textContent)">Add to Cart</button><button class="btn dark" onclick="buy('${p.id}')">Buy Now</button></div></div>`;
+ show("product");
+}
+function dq(n){let e=document.getElementById("dq");e.textContent=Math.max(1,Math.min(10,+e.textContent+n))}
+function add(id,qty=1){
+ let old=cart.find(x=>x.id===id),p=P.find(x=>x.id===id);
+ if(old)old.qty=Math.min(p.stock,old.qty+qty);else cart.push({id,qty:Math.min(p.stock,qty)});
+ save();openCart();
+}
+function buy(id){cart=[{id,qty:1}];save();checkout()}
+function openCart(){
+ let items=cart.map(i=>{let p=P.find(x=>x.id===i.id);return `<div class="cart-row"><img src="${p.img}"><div class="grow"><b>${p.name}</b><br>${money(p.price)} × ${i.qty}</div><button onclick="change('${p.id}',-1)">−</button><b>${i.qty}</b><button onclick="change('${p.id}',1)">+</button></div>`}).join("");
+ let total=cart.reduce((s,i)=>s+P.find(p=>p.id===i.id).price*i.qty,0);
+ document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><h2>Cart</h2>${items||"<p style='margin:20px 0'>Your cart is empty.</p>"}<h3 style="margin:18px 0">Total: ${money(total)}</h3>${cart.length?`<button class="btn" onclick="checkout()">Checkout</button>`:""}`;
+ document.getElementById("modal").classList.add("open");
+}
+function change(id,n){let i=cart.find(x=>x.id===id),p=P.find(x=>x.id===id);i.qty=Math.max(1,Math.min(p.stock,i.qty+n));save();openCart()}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+
+let checkoutStep=1;
+let checkoutData={};
+
+function cartTotal(){
+  return cart.reduce((s,i)=>{
+    const p=P.find(x=>x.id===i.id);
+    return s+(p?p.price*i.qty:0);
+  },0);
+}
+function checkoutItems(){
+  return cart.map(i=>{
+    const p=P.find(x=>x.id===i.id);
+    return p?{...p,qty:i.qty}:null;
+  }).filter(Boolean);
+}
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+function estimatedDelivery(pincode){
+  const pin=String(pincode||"").replace(/\D/g,"");
+  if(pin.length!==6) return "Enter a valid 6-digit pincode";
+  // Demo estimate only. A real courier/Maps API should replace this.
+  const first=Number(pin[0]);
+  if(first===4) return "Estimated: 2–4 business days";
+  if(first===1 || first===2 || first===3) return "Estimated: 3–5 business days";
+  if(first===5 || first===6) return "Estimated: 4–6 business days";
+  return "Estimated: 5–7 business days";
+}
+function checkout(){
+  if(!cart.length){openCart();return}
+  checkoutStep=1;
+  checkoutData={};
+  renderCheckout();
+  document.getElementById("modal").classList.add("open");
+}
+function renderCheckout(){
+  const box=document.getElementById("box");
+  const total=cartTotal();
+  let body="";
+  if(checkoutStep===1){
+    body=`
+      <div class="steps"><span class="active">1. Delivery</span><span>2. Payment</span><span>3. Review</span></div>
+      <h2>Delivery Details</h2>
+      <p class="muted">Enter the address where you want the order delivered.</p>
+      <div class="form-grid">
+        <div><label>Full name *</label><input id="c_name" value="${escapeHtml(checkoutData.name||"")}" placeholder="Full name"></div>
+        <div><label>Mobile number *</label><input id="c_phone" inputmode="numeric" maxlength="10" value="${escapeHtml(checkoutData.phone||"")}" placeholder="10-digit mobile number"></div>
+        <div class="wide"><label>House / Flat / Building No. *</label><input id="c_house" value="${escapeHtml(checkoutData.house||"")}" placeholder="House / Flat / Building number"></div>
+        <div class="wide"><label>Street / Local Area *</label><input id="c_area" value="${escapeHtml(checkoutData.area||"")}" placeholder="Street, colony, local area"></div>
+        <div><label>City *</label><input id="c_city" value="${escapeHtml(checkoutData.city||"")}" placeholder="City"></div>
+        <div><label>State *</label><input id="c_state" value="${escapeHtml(checkoutData.state||"Madhya Pradesh")}" placeholder="State"></div>
+        <div><label>Pincode *</label><input id="c_pin" inputmode="numeric" maxlength="6" value="${escapeHtml(checkoutData.pin||"")}" oninput="updateEta()" placeholder="6-digit pincode"></div>
+        <div><label>Landmark</label><input id="c_landmark" value="${escapeHtml(checkoutData.landmark||"")}" placeholder="Optional"></div>
+      </div>
+      <div id="etaBox" class="eta">${estimatedDelivery(checkoutData.pin||"")}</div>
+      <button class="btn" style="width:100%;margin-top:14px" onclick="saveDeliveryAndNext()">Continue to Payment</button>`;
+  } else if(checkoutStep===2){
+    body=`
+      <div class="steps"><span class="done">1. Delivery</span><span class="active">2. Payment</span><span>3. Review</span></div>
+      <h2>Payment Method</h2>
+      <p class="muted">Choose how you want to pay.</p>
+      <label class="pay-option"><input type="radio" name="pay" value="COD" ${checkoutData.payment==="COD"||!checkoutData.payment?"checked":""} onchange="togglePay()"> <b>Cash on Delivery</b><small>Pay when the order is delivered.</small></label>
+      <label class="pay-option"><input type="radio" name="pay" value="UPI" ${checkoutData.payment==="UPI"?"checked":""} onchange="togglePay()"> <b>UPI / QR</b><small>Pay using the merchant's UPI QR.</small></label>
+      <div id="upiBox" class="upi-box" style="display:${checkoutData.payment==="UPI"?"block":"none"}">
+        <div class="qr-placeholder">
+          <div class="qr-mark">QR</div>
+          <p><b>Merchant QR placeholder</b></p>
+          <p class="muted">Add your guardian/business UPI QR image URL in the website configuration before enabling real payments.</p>
+        </div>
+        <label>Customer UPI ID (optional)</label>
+        <input id="c_upi" value="${escapeHtml(checkoutData.upi||"")}" placeholder="example@upi">
+        <p class="warning">Never enter a UPI PIN, bank OTP, card PIN or banking password on this website. A real payment gateway handles payment authentication securely.</p>
+      </div>
+      <div class="total"><span>Order total</span><b>${money(total)}</b></div>
+      <div class="two-buttons"><button class="btn dark" onclick="checkoutStep=1;renderCheckout()">Back</button><button class="btn" onclick="savePaymentAndNext()">Continue to Review</button></div>`;
+  } else {
+    const items=checkoutItems();
+    body=`
+      <div class="steps"><span class="done">1. Delivery</span><span class="done">2. Payment</span><span class="active">3. Review</span></div>
+      <h2>Review & Place Order</h2>
+      <div class="review-card"><b>Deliver to</b><p>${escapeHtml(checkoutData.name)} · ${escapeHtml(checkoutData.phone)}</p><p>${escapeHtml(checkoutData.house)}, ${escapeHtml(checkoutData.area)}, ${escapeHtml(checkoutData.city)}, ${escapeHtml(checkoutData.state)} - ${escapeHtml(checkoutData.pin)}</p>${checkoutData.landmark?`<p>Landmark: ${escapeHtml(checkoutData.landmark)}</p>`:""}</div>
+      <div class="review-card"><b>Payment</b><p>${checkoutData.payment==="UPI"?"UPI / QR":"Cash on Delivery"}</p></div>
+      <div class="review-card"><b>Items</b>${items.map(p=>`<div class="review-line"><span>${escapeHtml(p.name)} × ${p.qty}</span><b>${money(p.price*p.qty)}</b></div>`).join("")}</div>
+      <div class="eta">${estimatedDelivery(checkoutData.pin)}</div>
+      <div class="total"><span>Total</span><b>${money(total)}</b></div>
+      <p class="muted small">For a real store, payment confirmation and SMS/OTP verification should be handled by a proper payment/OTP provider and server, not by this static HTML file.</p>
+      <div class="two-buttons"><button class="btn dark" onclick="checkoutStep=2;renderCheckout()">Back</button><button class="btn" onclick="placeOrderDemo()">Place Order</button></div>`;
+  }
+  box.innerHTML=`<button class="close" onclick="closeModal()">×</button>${body}`;
+}
+function updateEta(){
+  const e=document.getElementById("etaBox");
+  if(e)e.textContent=estimatedDelivery(document.getElementById("c_pin")?.value||"");
+}
+function saveDeliveryAndNext(){
+  const vals={
+    name:document.getElementById("c_name")?.value.trim(),
+    phone:document.getElementById("c_phone")?.value.trim(),
+    house:document.getElementById("c_house")?.value.trim(),
+    area:document.getElementById("c_area")?.value.trim(),
+    city:document.getElementById("c_city")?.value.trim(),
+    state:document.getElementById("c_state")?.value.trim(),
+    pin:document.getElementById("c_pin")?.value.trim(),
+    landmark:document.getElementById("c_landmark")?.value.trim()
+  };
+  if(!vals.name||!/^\d{10}$/.test(vals.phone)||!vals.house||!vals.area||!vals.city||!vals.state||!/^\d{6}$/.test(vals.pin)){
+    alert("Please fill all required delivery details correctly.");
+    return;
+  }
+  checkoutData={...checkoutData,...vals};
+  checkoutStep=2;renderCheckout();
+}
+function togglePay(){
+  const v=document.querySelector('input[name="pay"]:checked')?.value;
+  document.getElementById("upiBox").style.display=v==="UPI"?"block":"none";
+}
+function savePaymentAndNext(){
+  checkoutData.payment=document.querySelector('input[name="pay"]:checked')?.value||"COD";
+  checkoutData.upi=document.getElementById("c_upi")?.value.trim()||"";
+  checkoutStep=3;renderCheckout();
+}
+function placeOrderDemo(){
+  const orderId="TZ"+Date.now().toString().slice(-8);
+  const eta=estimatedDelivery(checkoutData.pin);
+  const total=cartTotal();
+  document.getElementById("box").innerHTML=`
+    <button class="close" onclick="closeModal()">×</button>
+    <h2>Order Request Created</h2>
+    <div class="success-box"><b>Order ID: ${orderId}</b><p>${eta}</p></div>
+    <p style="margin:14px 0">Your order details are ready. In this demo version, no real payment has been processed.</p>
+    <button class="btn" style="width:100%" onclick="sendOrderWhatsApp('${orderId}')">Send Order on WhatsApp</button>
+    <button class="btn dark" style="width:100%;margin-top:8px" onclick="cart=[];save();closeModal();show('home')">Continue Shopping</button>`;
+}
+function sendOrderWhatsApp(orderId){
+  const phone=localStorage.getItem("techzone_whatsapp")||"91XXXXXXXXXX";
+  if(phone.includes("X")){
+    alert("Set the store WhatsApp number in the HTML first.");
+    return;
+  }
+  const items=checkoutItems().map(p=>`${p.name} × ${p.qty}`).join(", ");
+  const text=`TechZone order request
+Order ID: ${orderId}
+Customer: ${checkoutData.name}
+Phone: ${checkoutData.phone}
+Address: ${checkoutData.house}, ${checkoutData.area}, ${checkoutData.city}, ${checkoutData.state} - ${checkoutData.pin}
+Payment: ${checkoutData.payment}
+Items: ${items}
+Total: ₹${cartTotal().toLocaleString("en-IN")}
+${estimatedDelivery(checkoutData.pin)}`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,"_blank");
+}
+function renderCart(){
+ let el=document.getElementById("cartArea");
+ if(!cart.length){el.innerHTML="<div class='empty'><h2>Your cart is empty</h2><p class='muted' style='margin:10px'>Add a product to begin.</p><button class='btn' onclick=\"show('shop')\">Shop Products</button></div>";return}
+ el.innerHTML=cart.map(i=>{let p=P.find(x=>x.id===i.id);return `<div class="cart-row"><img src="${p.img}"><div class="grow"><b>${p.name}</b><br>${money(p.price)}</div><button onclick="change('${p.id}',-1)">−</button><b>${i.qty}</b><button onclick="change('${p.id}',1)">+</button><button class="btn dark" onclick="cart=cart.filter(x=>x.id!=='${p.id}');save();renderCart()">Remove</button></div>`}).join("")+`<div class="total"><span>Cart Total</span><span>${money(cart.reduce((s,i)=>s+P.find(p=>p.id===i.id).price*i.qty,0))}</span></div><button class="btn" style="margin-top:15px" onclick="checkout()">Checkout</button>`;
+}
+function fill(id,cat){document.getElementById(id).innerHTML="<option value=''>Choose...</option>"+P.filter(p=>p.cat===cat).map(p=>`<option value="${p.id}">${p.name} — ${money(p.price)}</option>`).join("")}
+function checkBuild(){
+ let ids=["cpu","mb","gpu","ram","ssd"].map(x=>document.getElementById(x).value).filter(Boolean), chosen=ids.map(id=>P.find(p=>p.id===id)),cpu=document.getElementById("cpu").value,mb=document.getElementById("mb").value,bad=[];
+ if(cpu==="12400f"&&mb&&mb!=="h610")bad.push("Core i5-12400F needs an LGA1700 motherboard.");
+ if(cpu==="12400"&&mb&&mb!=="h610")bad.push("Core i5-12400 needs an LGA1700 motherboard.");
+ if((cpu==="5600gt"||cpu==="3400g")&&mb&&mb!=="b450")bad.push("This Ryzen processor needs an AM4 motherboard.");
+ if(cpu==="7500"&&mb&&mb!=="h110")bad.push("Core i5-7500 needs an LGA1151 motherboard.");
+ let total=chosen.reduce((s,p)=>s+p.price,0),e=document.getElementById("check");
+ e.className="check"+(bad.length?" bad":"");
+ e.innerHTML=bad.length?"<b>Compatibility issue:</b><br>"+bad.join("<br>"):chosen.length?"<b>Compatible so far.</b><br>No CPU/motherboard conflict detected.":"Select components to begin.";
+ document.getElementById("buildTotal").textContent=money(total);
+}
+function addBuild(){
+ let ids=["cpu","mb","gpu","ram","ssd"].map(x=>document.getElementById(x).value).filter(Boolean),cpu=document.getElementById("cpu").value,mb=document.getElementById("mb").value;
+ if(!ids.length){alert("Select components first.");return}
+ if((cpu==="12400f"&&mb&&mb!=="h610")||(cpu==="12400"&&mb&&mb!=="h610")||((cpu==="5600gt"||cpu==="3400g")&&mb&&mb!=="b450")||(cpu==="7500"&&mb&&mb!=="h110")){alert("Fix the compatibility issue first.");return}
+ ids.forEach(id=>addSilent(id));save();openCart();
+}
+function addSilent(id){let i=cart.find(x=>x.id===id);if(i)i.qty++;else cart.push({id,qty:1})}
+function init(){
+ renderCategories();renderShop();
+ fill("cpu","CPU");fill("mb","Motherboard");fill("gpu","GPU");fill("ram","RAM");fill("ssd","SSD");
+ checkBuild();save();
+}
+init();
+</script>
+
+<script>
+function buyWhatsApp(id){
+ const p=P.find(x=>x.id===id);
+ if(!p)return;
+ const phone=localStorage.getItem("techzone_whatsapp")||"91XXXXXXXXXX";
+ const qty=Math.max(1,parseInt(document.getElementById("qty")?.value||"1"));
+ const total=p.price*qty;
+ const text=`Hello TechZone, I want to purchase:
+Product: ${p.name}
+Quantity: ${qty}
+Price: ₹${p.price.toLocaleString("en-IN")}
+Total: ₹${total.toLocaleString("en-IN")}
+Product ID: ${p.id}
+
+Please confirm availability and delivery details.`;
+ if(phone.includes("X")){
+   alert("Set your TechZone WhatsApp number in the HTML by replacing 91XXXXXXXXXX with your business WhatsApp number.");
+   return;
+ }
+ window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,"_blank");
+}
+</script>
+
+<script>
+/* TECHZONE GOOGLE SHEETS AUTO-CATALOG
+   Set GOOGLE_SHEET_CSV_URL to your published Google Sheet CSV URL.
+   Columns: id,brand,name,cat,price,stock,img,desc,spec1,spec2,spec3,spec4
+*/
+const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRasN1vdTAAmUttHTrOYlkeKnebFfWLfZ3M-345IBecswy8wGivGhWXRQQae403_aE_k7VDRAbCow9w/pub?gid=0&single=true&output=csv";
+
+async function loadProductsFromGoogleSheet(){
+  const status=document.getElementById("sheetStatus");
+  const setStatus=(msg,ok=false)=>{if(status){status.textContent=msg;status.className="sheet-status "+(ok?"ok":"");}};
+  if(!GOOGLE_SHEET_CSV_URL){setStatus("Google Sheet is not connected.");return;}
+  setStatus("Syncing products from Google Sheets…");
+  try{
+    // Cache-buster ensures price/stock/name changes are not stuck in browser cache.
+    const url=GOOGLE_SHEET_CSV_URL+(GOOGLE_SHEET_CSV_URL.includes("?")?"&":"?")+"t="+Date.now();
+    const res=await fetch(url,{cache:"no-store"});
+    if(!res.ok) throw new Error("Sheet request failed: "+res.status);
+    const csv=await res.text();
+    const rows=parseCSV(csv).filter(r=>r.some(v=>String(v).trim()!==""));
+    if(rows.length<2) throw new Error("No product rows found in the published sheet.");
+
+    const headers=rows[0].map(x=>String(x).trim().toLowerCase());
+    const idxAny=(...keys)=>{for(const k of keys){const i=headers.indexOf(k);if(i>=0)return i;}return -1;};
+    const get=(r,...keys)=>{const i=idxAny(...keys);return i>=0?String(r[i]??"").trim():"";};
+
+    const imported=rows.slice(1).map(r=>{
+      const specs=["spec1","spec2","spec3","spec4"].map(k=>get(r,k)).filter(Boolean).map((v,i)=>{
+        const parts=v.split(":");
+        return parts.length>1?[parts.shift().trim(),parts.join(":").trim()]:["Spec "+(i+1),v];
+      });
+      return {
+        id:get(r,"id")||("sheet-"+Math.random().toString(36).slice(2,8)),
+        brand:get(r,"brand"),
+        name:get(r,"name","product","product name"),
+        cat:get(r,"cat","category"),
+        price:Number(get(r,"price","mrp","selling price").replace(/[^0-9.]/g,""))||0,
+        stock:Number(get(r,"stock","qty","quantity","available").replace(/[^0-9]/g,""))||0,
+        img:get(r,"img","image","image url","photo","photo url"),
+        desc:get(r,"desc","description"),
+        spec:specs
+      };
+    }).filter(p=>p.name);
+
+    if(!imported.length) throw new Error("Products found nahi hue. Check the header row and product rows.");
+
+    P.length=0;
+    imported.forEach(p=>P.push(p));
+    if(typeof renderCategories==="function") renderCategories();
+    if(typeof renderShop==="function") renderShop();
+    if(typeof checkBuild==="function") checkBuild();
+    if(typeof save==="function") save();
+    setStatus("✓ Products synced from Google Sheets · "+imported.length+" products",true);
+  }catch(err){
+    console.warn("TechZone Sheet sync failed:",err);
+    setStatus("⚠ Sheet sync failed. Website is showing saved/default products. Host this HTML on GitHub Pages (not file://) and make sure the Sheet is published to web.");
+  }
+}
+
+function parseCSV(text){
+  const out=[]; let row=[], cell="", quote=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(c==='"' && quote && n==='"'){cell+='"';i++;continue}
+    if(c==='"'){quote=!quote;continue}
+    if(c===',' && !quote){row.push(cell);cell="";continue}
+    if((c==='\n'||c==='\r') && !quote){
+      if(c==='\r'&&n==='\n')i++;
+      row.push(cell); out.push(row); row=[]; cell=""; continue;
+    }
+    cell+=c;
+  }
+  if(cell.length||row.length){row.push(cell);out.push(row)}
+  return out;
+}
+document.addEventListener("DOMContentLoaded",loadProductsFromGoogleSheet);
+</script>
+</body>
+</html>
